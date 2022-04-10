@@ -1,2 +1,4 @@
 guru\springframework\sfgpetclinic\controllers\IndexController.class
+guru\springframework\sfgpetclinic\controllers\OwnerController.class
+guru\springframework\sfgpetclinic\controllers\VetsController.class
 guru\springframework\sfgpetclinic\SfgPetClinicApplication.class
