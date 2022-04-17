@@ -1,5 +1,8 @@
 package guru.springframework.sfgpetclinic.models;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Specialty extends BaseEntity {
     private String description;
 

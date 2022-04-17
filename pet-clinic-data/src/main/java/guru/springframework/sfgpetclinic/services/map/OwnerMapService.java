@@ -1,16 +1,15 @@
 package guru.springframework.sfgpetclinic.services.map;
 
 import guru.springframework.sfgpetclinic.models.Owner;
-import guru.springframework.sfgpetclinic.models.Pet;
 import guru.springframework.sfgpetclinic.services.OwnerService;
 import guru.springframework.sfgpetclinic.services.PetService;
 import guru.springframework.sfgpetclinic.services.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
-public class OwnerMapService extends AbstractMapService<Owner, Long> implements OwnerService{
+@Profile({"default", "map"})
+public class OwnerMapService extends AbstractMapService<Owner> implements OwnerService {
 
     private final PetTypeService petTypeService;
     private final PetService petService;
@@ -21,55 +20,28 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
-    public Set<Owner> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        super.deleteById(id);
-    }
-
-    @Override
-    public void delete(Owner owner) {
-        super.delete(owner);
-    }
-
-    @Override
-    public Owner save(Owner owner) {
-
-        if(owner != null){
-            if (owner.getPets() != null) {
-                owner.getPets().forEach(pet -> {
-                    if (pet.getPetType() != null){
-                        if(pet.getPetType().getId() == null){
-                            pet.setPetType(petTypeService.save(pet.getPetType()));
-                        }
-                    } else {
-                        throw new RuntimeException("Pet Type is required");
-                    }
-
-                    if(pet.getId() == null){
-                        Pet savedPet = petService.save(pet);
-                        pet.setId(savedPet.getId());
-                    }
-                });
+    public Owner save(Owner object) {
+        object.getPets().forEach(pet -> {
+            if (pet.getId() == null) {
+                petService.save(pet);
             }
-
-            return super.save(owner);
-
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Owner findById(Long id) {
-        return super.findById(id);
+            if (pet.getPetType().getId() == null) {
+                petTypeService.save(pet.getPetType());
+            }
+        });
+        return super.save(object);
     }
 
     @Override
     public Owner findByLastName(String lastName) {
-        return null;
+        return map.values().stream()
+                .filter(owner -> owner.getLastName().equals(lastName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public Owner findByLastNameWithPets(String lastName) {
+        return findByLastName(lastName);
     }
 }

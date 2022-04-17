@@ -1,45 +1,46 @@
 package guru.springframework.sfgpetclinic.services.map;
 
 import guru.springframework.sfgpetclinic.models.BaseEntity;
+import guru.springframework.sfgpetclinic.services.CrudService;
 
 import java.util.*;
 
-public class AbstractMapService <T extends BaseEntity, ID extends Long> {
+public abstract class AbstractMapService<T extends BaseEntity> implements CrudService<T> {
+    protected final Map<Long, T> map = new HashMap<>();
 
-    protected Map<Long, T> map = new HashMap<>();
-
-    Set<T> findAll () {
+    @Override
+    public Set<T> findAll() {
         return new HashSet<>(map.values());
     }
 
-    T findById (ID id) {
+    @Override
+    public T findById(Long id) {
         return map.get(id);
     }
 
-    T save (T object) {
-        if (object != null){
-            if (object.getId() == null){
-                object.setId(getNextId());
-            }
-            map.put(object.getId(), object);
-        } else {
-            throw new RuntimeException("Object cannot be null");
-        }
-        return object;
-    }
-
-    void deleteById (ID id) {
-        map.remove(id);
-    }
-
-    void delete(T object){
+    @Override
+    public void delete(T object) {
         map.entrySet().removeIf(entry -> entry.getValue().equals(object));
     }
 
-    private Long getNextId(){
-        if (map.size() == 0){
-            return 1L;
+    @Override
+    public void deleteById(Long id) {
+        map.remove(id);
+    }
+
+    @Override
+    public T save(T object) {
+        if (object == null) {
+            throw new IllegalStateException("Can't save null!");
+        } else if (object.getId() == null) {
+            object.setId(getNextId());
         }
-        return Collections.max(map.keySet()) + 1;
+
+        map.put(object.getId(), object);
+        return object;
+    }
+
+    private Long getNextId() {
+        return map.keySet().isEmpty() ? 1L : Collections.max(map.keySet()) + 1;
     }
 }
