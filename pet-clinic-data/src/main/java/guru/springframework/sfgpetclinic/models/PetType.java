@@ -1,17 +1,26 @@
 package guru.springframework.sfgpetclinic.models;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class PetType extends BaseEntity{
 
-    private String name;
-
-    public String getName() {
-        return name;
+    @Builder
+    public PetType(Long id, String name) {
+        super(id);
+        this.name = name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private String name;
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
