@@ -44,4 +44,10 @@ public class OwnerMapService extends AbstractMapService<Owner> implements OwnerS
     public Owner findByLastNameWithPets(String lastName) {
         return findByLastName(lastName);
     }
+
+    @Override
+    public Object findAllByLastNameLike(String anyString) {
+        //todo - impl
+        return null;
+    }
 }

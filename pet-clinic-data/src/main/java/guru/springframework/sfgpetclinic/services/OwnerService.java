@@ -7,4 +7,6 @@ public interface OwnerService extends CrudService<Owner> {
     Owner findByLastName(String lastName);
 
     Owner findByLastNameWithPets(String lastName);
+
+    Object findAllByLastNameLike(String anyString);
 }
