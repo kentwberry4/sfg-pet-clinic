@@ -13,5 +13,5 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     @Query("SELECT o FROM Owner o LEFT JOIN FETCH o.pets WHERE o.lastName = :lastName")
     Owner findByLastNameWithPets(@Param("lastName") String lastName);
 
-    List findAllByLastNameLike(String lastName);
+    List<Owner> findAllByLastNameLike(String lastName);
 }
