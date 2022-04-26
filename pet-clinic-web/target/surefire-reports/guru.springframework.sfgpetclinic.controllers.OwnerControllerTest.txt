@@ -1,4 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: guru.springframework.sfgpetclinic.controllers.OwnerControllerTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.84 s - in guru.springframework.sfgpetclinic.controllers.OwnerControllerTest
+Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.158 s <<< FAILURE! - in guru.springframework.sfgpetclinic.controllers.OwnerControllerTest
+initUpdateOwnerForm  Time elapsed: 0.027 s  <<< FAILURE!
+org.mockito.exceptions.verification.NoInteractionsWanted: 
+
+No interactions wanted here:
+-> at guru.springframework.sfgpetclinic.controllers.OwnerControllerTest.initUpdateOwnerForm(OwnerControllerTest.java:123)
+But found these interactions on mock 'ownerService':
+-> at guru.springframework.sfgpetclinic.controllers.OwnerController.initUpdateOwnerForm(OwnerController.java:87)
+Actually, above is the only interaction with this mock.
+	at guru.springframework.sfgpetclinic.controllers.OwnerControllerTest.initUpdateOwnerForm(OwnerControllerTest.java:123)
+
